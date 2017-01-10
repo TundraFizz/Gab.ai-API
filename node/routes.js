@@ -6,8 +6,6 @@ module.exports = function(app){
 
   var lib = require("./func-parser.js");
   var testing = require("testing");
-  // https://gab.ai/feed/TundraFizz
-  // https://gab.ai/api/search/users?q=test
 
   ///////////
   // Index //
@@ -22,38 +20,21 @@ module.exports = function(app){
 
     var sample1 = new testing.CreateObject(username, key, val);
 
+    // sample1.DoSomething(function(body){
+    //   body = JSON.stringify(body, undefined, 2); // spacing level = 2
+
+    //   res.render("index.ejs", {
+    //     data: body
+    //   });
+    // });
+
     sample1.DoSomething(function(body){
-      body = JSON.stringify(body, undefined, 2); // spacing level = 2
+      body = JSON.stringify(body, undefined, 2);
 
       res.render("index.ejs", {
         data: body
       });
     });
 
-    /////////////////
-    // OLD VERSION //
-    // lib.ParseConfig("config.ini",
-    // function(config){
-    //   var key = config.remember.key;
-    //   var val = config.remember.val;
-    //   var url = "https://gab.ai";
-    //   var jar = request.jar();
-    //   var cookie = request.cookie(key + "=" + val);
-    //   jar.setCookie(cookie, url);
-
-    //   request({
-    //     url: "https://gab.ai/feed/TundraFizz",
-    //     jar: jar
-    //   }, function(error, response, body) {
-    //     // We have now received something from the server,
-    //     // but we need to make sure it's valid JSON first!
-    //     if(!lib.ValidateJSON(body))
-    //       body = "An error occurred.";
-
-    //     res.render("index.ejs", {
-    //       data: body
-    //     });
-    //   });
-    // });
   });
 }
