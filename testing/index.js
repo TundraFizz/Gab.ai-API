@@ -1,7 +1,3 @@
-// ===== TODO =====
-// https://gab.ai/feed/TundraFizz
-// https://gab.ai/api/search/users?q=test
-
 var request = require("request");
 
 //---------
@@ -21,52 +17,33 @@ function UserObject(username, key, val){
   this.username = username;
   this.key      = key;
   this.val      = val;
+  this.cookie   = request.cookie(this.key + "=" + this.val);
+  this.url      = "";
 
-  this.url = "https://gab.ai";
-  this.jar = request.jar();
+  this.cookieJar = request.jar();
+  this.cookieJar.setCookie(this.cookie, "https://gab.ai");
 
-  this.cookie = request.cookie(this.key + "=" + this.val);
-  this.jar.setCookie(this.cookie, this.url);
+  this.RequestData = function(callback){
+    request({
+      url: this.url,
+      jar: this.cookieJar
+    }, function(error, response, body){
+      if(!ValidateJSON(body))
+        body = "An error occurred.";
+
+      callback(body);
+    });
+  };
 }
 
 UserObject.prototype.GetFeed = function(callback){
-  // var url = "https://gab.ai";
-  // var jar = request.jar();
-  // var cookie = request.cookie(this.key + "=" + this.val);
-  // jar.setCookie(cookie, url);
-
-  request({
-    url: "https://gab.ai/feed/TundraFizz",
-    jar: this.jar
-  }, function(error, response, body) {
-    // We have now received something from the server,
-    // but we need to make sure it's valid JSON first!
-    if(!ValidateJSON(body))
-      body = "An error occurred.";
-
-    callback(body);
-  });
+  this.url = "https://gab.ai/feed/" + this.username;
+  this.RequestData(function(body){callback(body);});
 }
 
-UserObject.prototype.SearchSomething = function(callback){
-  // var url = "https://gab.ai";
-  // var jar = request.jar();
-  // var cookie = request.cookie(this.key + "=" + this.val);
-  // jar.setCookie(cookie, url);
-
-  searchTerm = "test";
-
-  request({
-    url: "https://gab.ai/api/search/users?q=" + searchTerm,
-    jar: this.jar
-  }, function(error, response, body) {
-    // We have now received something from the server,
-    // but we need to make sure it's valid JSON first!
-    if(!ValidateJSON(body))
-      body = "An error occurred.";
-
-    callback(body);
-  });
+UserObject.prototype.SearchSomething = function(searchTerm, callback){
+  this.url = "https://gab.ai/api/search/users?q=" + searchTerm;
+  this.RequestData(function(body){callback(body);});
 }
 
 //----------
