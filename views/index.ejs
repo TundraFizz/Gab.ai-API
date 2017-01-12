@@ -1,7 +1,7 @@
 <style>
 
-body {
-  margin:           6px 12px;
+body{
+  margin:           4px;
   display:          block;
   background-color: #ccc;
 }
@@ -9,21 +9,24 @@ body {
 </style>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <title>Gab.ai API Example</title>
-    <meta charset="utf-8">
+    <meta>
     <meta name="author"       content="Tundra Fizz">
     <link rel="shortcut icon" href="../icon.jpg">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   </head>
 
   <body>
-    <pre><%- data %></pre>
-    <pre><%= data %></pre>
+    <pre id="example"><%= data %></pre>
   </body>
 </html>
 
 <script>
-
+$.post("query", function(data){
+  data = JSON.parse(data);
+  data = JSON.stringify(data, undefined, 2);
+  $("#example").text(data);
+});
 </script>
