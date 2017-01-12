@@ -14,9 +14,7 @@ module.exports = function(app){
 
     var obj = new testing.CreateObject(username, key, val);
 
-    searchTerm = "hi";
-
-    obj.SearchSomething(searchTerm, function(body){
+    obj.SearchSomething("hi", function(body){
       res.json(body);
     });
   });
