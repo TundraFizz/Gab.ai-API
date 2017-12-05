@@ -6,10 +6,10 @@
   "author": "Tundra Fizz",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "1.9.2",
+    "body-parser": "latest",
     "request"    : "latest",
     "express"    : "latest",
-    "ejs"        : "^1.0.0"
+    "ejs"        : "latest"
   },
   "scripts": {
     "start": "node server.js"
